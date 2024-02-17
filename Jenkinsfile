@@ -4,21 +4,21 @@ pipeline {
 
    stages {
    
-     stage('Install Dependencies') { 
+     stage('Check Git Version') { 
         steps { 
-           sh 'npm install' 
+           git --version
         }
      }
      
-     stage('Test') { 
+     stage('Check Java Version') { 
         steps { 
-           sh 'echo "testing application..."'
+           java --version
         }
       }
 
-         stage("Deploy nodejs application") { 
+         stage("check current location) { 
          steps { 
-           sh 'echo "deploying application..."'
+           pwd
          }
 
      }
