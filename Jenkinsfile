@@ -1,13 +1,36 @@
-node{
-
-stage('Clone the Repo'){
+stages {
+    stage('parameter') {
+        steps {
+            script {
+            
+            properties([parameters([choice(choices: ['yes', 'no'], name: 'shouldWePrint')])])
+                    }
+              }
+        
     
-    git 'https://github.com/devops-pritam/onlinebookstore.git'
+    }
+    stage('Print') {
+        when {
+            expression { 
+               return params.shouldWePrint == 'yes'
+            }
+        }
+        steps {
+                sh """
+                java --version
+                """
+            }
+        }
+    stage('No Print') {
+        when {
+            expression { 
+               return params.shouldWePrint == 'no'
+            }
+        }
+        steps {
+                echo 'No Print Required'
+            }
+        }
 }
 
-stage('Maven Build'){
-    def mavenHome = tool name: "Maven-3.9.6", type: "maven"
-    def mavenCMD = "${mavenHome}/bin/mvn"
-    sh "${mavenCMD} clean package"
-}
 }
