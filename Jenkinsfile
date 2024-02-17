@@ -1,28 +1,13 @@
-pipeline { 
-  
-   agent any
+node{
 
-   stages {
-   
-     stage('Check Git Version') { 
-        steps { 
-           git --version
-        }
-     }
-     
-     stage('Check Java Version') { 
-        steps { 
-           java --version
-        }
-      }
+stage('Clone the Repo'){
+    
+    git 'https://github.com/devops-pritam/onlinebookstore.git'
+}
 
-         stage("check current location) { 
-         steps { 
-           pwd
-         }
-
-     }
-  
-   	}
-
-   }
+stage('Maven Build'){
+    def mavenHome = tool name: "Maven-3.9.6", type: "maven"
+    def mavenCMD = "${mavenHome}/bin/mvn"
+    sh "${mavenCMD} clean package"
+}
+}
